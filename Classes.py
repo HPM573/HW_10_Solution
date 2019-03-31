@@ -1,6 +1,5 @@
 import numpy as np
 import SimPy.StatisticalClasses as Stat
-import InputData as D
 
 
 class Game:
@@ -68,10 +67,9 @@ class SetOfGames:
             else:
                 self.gameIfLoss.append(0)
 
-        self.outcomes = SetOfGamesOutcomes(game_rewards=self.gameRewards, game_if_loss=self.gameIfLoss)
+        self.outcomes = SetOfGamesOutcomes(game_rewards=self.gameRewards,
+                                           game_if_loss=self.gameIfLoss)
 
-    def get_rewards(self):
-        return self.gameRewards
 
 class SetOfGamesOutcomes:
     def __init__(self, game_rewards, game_if_loss):
@@ -107,8 +105,7 @@ class MultipleGameSets:
         self.probHead = prob_head
 
         self.gameSetRewards = []
-        self.statGameRewards = None
-        self.meanGameRewards = []
+        self.statMultipleGameRewards = None
 
     def simulate(self, n_games_in_set):
 
@@ -117,8 +114,5 @@ class MultipleGameSets:
             set_of_games.simulate(n_games=n_games_in_set)
 
             self.gameSetRewards.append(set_of_games.outcomes.get_total_reward())
-            self.meanGameRewards.append(sum(self.gameSetRewards)/(len(self.gameSetRewards)))
 
-        #self.statGameRewards = Stat.SummaryStat('Mean Rewards', self.gameSetRewards)
-
-
+        self.statMultipleGameRewards = Stat.SummaryStat('Mean Rewards', self.gameSetRewards)

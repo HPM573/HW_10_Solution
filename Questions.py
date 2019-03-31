@@ -1,68 +1,71 @@
 import InputData as D
 import Classes as Cls
-import SupportSteadyState as Support
-import TransientStateSupport as Transient
+import SupportSteadyState as SupportSteady
+import SupportTransientState as SupportTransient
 
 
-#STEADY STATE
+# STEADY STATE
+# fair game
 gamesFair = Cls.SetOfGames(
     id=1,
-    prob_head=D.prob_head)
-# simulate the cohort
+    prob_head=D.prob_head_fair)
+# simulate
 gamesFair.simulate(n_games=D.n_games)
 
-# create a cohort of patients for when the drug is available
-gamesBiased = Cls.SetOfGames(
-    id=2,   # since we don't have a mechanism to pair the simulated patients in
-            # cohorts with and without the drug, we chose a different random number seed
-            # for these two cohorts so that they remain independent from each other.
-    prob_head=D.prob_head * D.unfairness_ratio)
-# simulate the cohort
-gamesBiased.simulate(n_games=D.n_games)
+# unfair game
+gamesUnfair = Cls.SetOfGames(
+    id=2,   # since we don't have a mechanism to pair the simulated games,
+            # we chose a different random number seed for these two
+            # games so that they remain independent from each other.
+    prob_head=D.prob_head_unfair)
+# simulate
+gamesUnfair.simulate(n_games=D.n_games)
 
-# print outcomes of each cohort
-Support.print_outcomes(simulated_cohort=gamesFair,
-                       strategy_name='When probability of heads is 0.5:')
-Support.print_outcomes(simulated_cohort=gamesBiased,
-                       strategy_name='When probability of heads is 0.45:')
+# print outcomes of each set of games
+print("From the casio owner's perspective:")
+SupportSteady.print_outcomes(set_of_games=gamesFair,
+                             strategy_name='For a fair coin:')
+SupportSteady.print_outcomes(set_of_games=gamesUnfair,
+                             strategy_name='For an unfair coin:')
 
-# draw survival curves and histograms
-Support.draw_survival_curves_and_histograms(cohort_fair_coin=gamesFair,
-                                            cohort_biased_coin=gamesBiased)
+# plot histograms
+SupportSteady.plot_histograms(set_of_games_fair_coin=gamesFair,
+                              set_of_games_unfair_coin=gamesUnfair)
 
 # print comparative outcomes
-Support.print_comparative_outcomes(output_fair_coin=gamesFair,
-                                   output_biased_coin=gamesBiased)
+SupportSteady.print_comparative_outcomes(set_of_games_fair_coin=gamesFair,
+                                         set_of_games_unfair_coin=gamesUnfair)
 
 
-#TRANSIENT STATE
-multi_gamesFair = Cls.MultipleGameSets(
-    ids=range(D.n_simulated_games),   # [0, 1, 2 ..., NUM_SIM_COHORTS-1]
-    prob_head=[D.prob_head] * D.n_simulated_games  # [p, p, ...]
-)
-# simulate all cohorts
-multi_gamesFair.simulate(n_games_in_set=D.games_in_set)
-
-# create multiple cohorts for when the drug is available
-multi_gamesBiased = Cls.MultipleGameSets(
+# TRANSIENT STATE
+# for fair coin
+multiGamesFair = Cls.MultipleGameSets(
     ids=range(D.n_simulated_games),
-        # [NUM_SIM_COHORTS, NUM_SIM_COHORTS+1, NUM_SIM_COHORTS+2, ...]
-        # since we don't have a mechanism to pair the simulated patients in
-        # cohorts with and without the drug, we chose a different random number seed
-        # for these two cohorts so that they remain independent from each other.
-    prob_head=[D.prob_head * D.unfairness_ratio] * D.n_simulated_games
-)
+    prob_head=D.prob_head_fair)
+# simulate all sets of games
+multiGamesFair.simulate(n_games_in_set=D.games_in_set)
+
+# for unfair coin
+multiGamesUnfair = Cls.MultipleGameSets(
+    ids=range(D.n_simulated_games, 2*D.n_simulated_games),
+        # since we don't have a mechanism to pair the simulated games,
+        # we chose a different random number seed for these two
+        # games so that they remain independent from each other.
+    prob_head=D.prob_head_unfair)
 # simulate all cohorts
-multi_gamesBiased.simulate(n_games_in_set=D.games_in_set)
+multiGamesUnfair.simulate(n_games_in_set=D.games_in_set)
 
 # print outcomes of each cohort
-Transient.print_outcomes(multi_cohort=multi_gamesFair, strategy_name='When the probability of heads is 0.5:')
-Transient.print_outcomes(multi_cohort=multi_gamesBiased, strategy_name='When the probability of heads is 0.45:')
+print("\nFrom the gambler's perspective:")
+SupportTransient.print_outcomes(multi_game_sets=multiGamesFair,
+                                strategy_name='For fair games:')
+SupportTransient.print_outcomes(multi_game_sets=multiGamesUnfair,
+                                strategy_name='For unfair games:')
 
-# draw histograms of average survival time
-Transient.draw_histograms(multicohort_output_fair_coin=multi_gamesFair,
-                          multi_cohort_output_biased_coin=multi_gamesBiased)
+# plot histograms of rewards from a set of games
+SupportTransient.draw_histograms(multi_game_sets_fair_coin=multiGamesFair,
+                                 multi_game_sets_unfair_coin=multiGamesUnfair)
 
 # print comparative outcomes
-Transient.print_comparative_outcomes(multi_cohort_fair_coin=multi_gamesFair,
-                                   multi_cohort_biased_coin=multi_gamesBiased)
+SupportTransient.print_comparative_outcomes(multi_game_sets_fair_coin=multiGamesFair,
+                                            multi_game_sets_unfair_coin=multiGamesUnfair)

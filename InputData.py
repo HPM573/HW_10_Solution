@@ -1,11 +1,11 @@
-prob_head = 0.50
-unfairness_ratio = 0.90
+prob_head_fair = 0.50
+prob_head_unfair = 0.45
 ALPHA = 0.05
 
-#steady state
-n_games = 1000
+# steady state
+n_games = 2000
 
-#transient state
+# transient state
 games_in_set = 10
-n_simulated_games = 1000
+n_simulated_games = 5000
 
