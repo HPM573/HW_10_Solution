@@ -1,6 +1,6 @@
 import SimPy.StatisticalClasses as Stat
 import InputData as D
-import SimPy.FigureSupport as Figs
+import SimPy.Plots.Histogram as Hist
 
 
 def print_outcomes(set_of_games, strategy_name):
@@ -36,13 +36,13 @@ def plot_histograms(set_of_games_fair_coin, set_of_games_unfair_coin):
     ]
 
     # graph histograms
-    Figs.graph_histograms(
+    Hist.plot_histograms(
         data_sets=set_of_game_rewards,
         title="Histogram of the casino owner's reward from one game",
         x_label='Mean Game Rewards',
         y_label='Counts',
         bin_width=100,
-        legend=['Fair Coin', 'Unfair Coin'],
+        legends=['Fair Coin', 'Unfair Coin'],
         transparency=0.5
     )
 

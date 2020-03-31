@@ -1,4 +1,4 @@
-import SimPy.FigureSupport as Figs
+import SimPy.Plots.Histogram as Hist
 import SimPy.StatisticalClasses as Stat
 import InputData as D
 
@@ -35,13 +35,13 @@ def draw_histograms(multi_game_sets_fair_coin, multi_game_sets_unfair_coin):
     ]
 
     # graph histograms
-    Figs.graph_histograms(
+    Hist.plot_histograms(
         data_sets=set_of_game_rewards,
         title='Histogram of the gamblers total reward from 10 games',
         x_label='Mean Game Rewards',
         y_label='Counts',
         bin_width=100,
-        legend=['Fair Coin', 'Unfair Coin'],
+        legends=['Fair Coin', 'Unfair Coin'],
         transparency=0.5
     )
 

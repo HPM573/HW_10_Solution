@@ -47,8 +47,9 @@ class SetOfGames:
         self.id = id
         self.probHead = prob_head
         self.gameRewards = []
-        self.gameIfLoss = []  # list of 0 and 1, where represents loss and 0 represents win.
-        self.outcomes = None
+        self.gameIfLoss = []  # list of 0 and 1, where 1 represents loss and 0 represents win.
+        self.statRewards = None # stat to collect total rewards
+        self.statIfLoss = None  # stat to collect number of losses
 
     def simulate(self, n_games):
 
@@ -67,36 +68,8 @@ class SetOfGames:
             else:
                 self.gameIfLoss.append(0)
 
-        self.outcomes = SetOfGamesOutcomes(game_rewards=self.gameRewards,
-                                           game_if_loss=self.gameIfLoss)
-
-
-class SetOfGamesOutcomes:
-    def __init__(self, game_rewards, game_if_loss):
-
-        self.statRewards = Stat.SummaryStat('Reward', game_rewards)
-        self.statIfLoss = Stat.SummaryStat('Probability  of loss', game_if_loss)
-
-    def get_ave_reward(self):
-        return self.statRewards.get_mean()
-
-    def get_total_reward(self):
-        return self.statRewards.get_total()
-
-    def get_CI_reward(self, alpha):
-        return self.statRewards.get_t_CI(alpha)
-
-    def get_min_reward(self):
-        return self.statRewards.get_min()
-
-    def get_max_reward(self):
-        return self.statRewards.get_max()
-
-    def get_loss_prob(self):
-        return self.statIfLoss.get_mean()
-
-    def get_CI_prob_Loss(self, alpha):
-        return self.statIfLoss.get_t_CI(alpha)
+        self.statRewards = Stat.SummaryStat('Reward', self.gameRewards)
+        self.statIfLoss = Stat.SummaryStat('Probability  of loss', self.gameIfLoss)
 
 
 class MultipleGameSets:
@@ -113,6 +86,6 @@ class MultipleGameSets:
             set_of_games = SetOfGames(id=i, prob_head=self.probHead)
             set_of_games.simulate(n_games=n_games_in_set)
 
-            self.gameSetRewards.append(set_of_games.outcomes.get_total_reward())
+            self.gameSetRewards.append(set_of_games.statRewards.get_total())
 
         self.statMultipleGameRewards = Stat.SummaryStat('Mean Rewards', self.gameSetRewards)
