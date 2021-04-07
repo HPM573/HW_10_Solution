@@ -1,11 +1,10 @@
 import numpy as np
-import SimPy.StatisticalClasses as Stat
+import SimPy.Statistics as Stat
 
 
 class Game:
     def __init__(self, id, prob_head):
         self.id = id
-        self.rnd = np.random.RandomState(seed=id)
         self.probHead = prob_head
         self.countWins = 0
 
@@ -14,13 +13,16 @@ class Game:
         simulates 20 coin tosses and counts the number of times {T, T, H} occurred
         """
 
+        # random number generator
+        rnd = np.random.RandomState(seed=self.id)
+
         n_consecutive_tails = 0  # number of consecutive tails so far, set to 0
 
         # flip the coin 20 times
         for i in range(20):
 
             # find if this flip resulted in head or tail
-            if self.rnd.random_sample() < self.probHead:
+            if rnd.random_sample() < self.probHead:
 
                 # if it is head, check if the last 2 tosses resulted in {T, T}
                 if n_consecutive_tails >= 2:
@@ -42,6 +44,8 @@ class Game:
 
 
 class SetOfGames:
+    # class to simulate the game multiple times
+
     def __init__(self, id, prob_head):
 
         self.id = id
@@ -68,17 +72,20 @@ class SetOfGames:
             else:
                 self.gameIfLoss.append(0)
 
-        self.statRewards = Stat.SummaryStat('Reward', self.gameRewards)
-        self.statIfLoss = Stat.SummaryStat('Probability  of loss', self.gameIfLoss)
+        self.statRewards = Stat.SummaryStat(name='Reward', data=self.gameRewards)
+        self.statIfLoss = Stat.SummaryStat(name='Probability  of loss', data=self.gameIfLoss)
 
 
 class MultipleGameSets:
+    # class to simulate multiple game sets
+
     def __init__(self, ids, prob_head):
+
         self.ids = ids
         self.probHead = prob_head
 
         self.gameSetRewards = []
-        self.statMultipleGameRewards = None
+        self.statGameSetRewards = None
 
     def simulate(self, n_games_in_set):
 
@@ -88,4 +95,4 @@ class MultipleGameSets:
 
             self.gameSetRewards.append(set_of_games.statRewards.get_total())
 
-        self.statMultipleGameRewards = Stat.SummaryStat('Mean Rewards', self.gameSetRewards)
+        self.statGameSetRewards = Stat.SummaryStat(name='Mean Rewards', data=self.gameSetRewards)

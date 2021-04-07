@@ -1,4 +1,4 @@
-import SimPy.StatisticalClasses as Stat
+import SimPy.Statistics as Stat
 import InputData as D
 import SimPy.Plots.Histogram as Hist
 
