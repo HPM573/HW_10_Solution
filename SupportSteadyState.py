@@ -39,8 +39,8 @@ def plot_histograms(set_of_games_fair_coin, set_of_games_unfair_coin):
     # graph histograms
     Hist.plot_histograms(
         data_sets=set_of_game_rewards,
-        title="Histogram of the casino owner's reward from one game",
-        x_label='Mean Game Rewards',
+        title="Histogram of the casino owner's payment to the gambler",
+        x_label='Payment',
         y_label='Counts',
         bin_width=100,
         legends=['Fair Coin', 'Unfair Coin'],
