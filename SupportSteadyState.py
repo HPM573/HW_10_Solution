@@ -1,6 +1,6 @@
-import SimPy.Statistics as Stat
 import InputData as D
 import SimPy.Plots.Histogram as Hist
+import SimPy.Statistics as Stat
 
 
 def print_outcomes(set_of_games, strategy_name):
@@ -13,13 +13,14 @@ def print_outcomes(set_of_games, strategy_name):
     rewards_stat = Stat.SummaryStat(name='Game Rewards',
                                     data=set_of_games.gameRewards)
 
-    # get mean and confidence confidence interval
+    # get mean and confidence interval
     mean = rewards_stat.get_mean()
     conf_int = rewards_stat.get_t_CI(alpha=D.ALPHA)
 
     # print survival time statistics
     print(strategy_name)
-    print("  Average reward from one game and {:.{prec}%} confidence interval:"
+    print("  Expected casino owner's payment to the gambler "
+          "(if negative, it means that the gambler is paying to the casino owner)  {:.{prec}%} confidence interval:"
           .format(1 - D.ALPHA, prec=0), mean, conf_int)
 
 
@@ -64,5 +65,6 @@ def print_comparative_outcomes(set_of_games_fair_coin, set_of_games_unfair_coin)
     mean = increase_reward.get_mean()
     conf_int = increase_reward.get_t_CI(alpha=D.ALPHA)
 
-    print("Increase in average reward from one game and {:.{prec}%} confidence interval:"
+    print("Change in casino owner's payment to the gambler due to using the unfair coin "
+          "and {:.{prec}%} confidence interval:"
           .format(1 - D.ALPHA, prec=0), mean, conf_int)

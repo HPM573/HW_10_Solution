@@ -1,8 +1,7 @@
-import InputData as D
 import Classes as Cls
+import InputData as D
 import SupportSteadyState as SupportSteady
 import SupportTransientState as SupportTransient
-
 
 # STEADY STATE
 # fair game
@@ -16,7 +15,7 @@ gamesFair.simulate(n_games=D.n_games)
 gamesUnfair = Cls.SetOfGames(
     id=2,   # since we don't have a mechanism to pair the simulated games,
             # we chose a different random number seed for these two
-            # games so that they remain independent from each other.
+            # games so that they remain independent of each other.
     prob_head=D.prob_head_unfair)
 # simulate
 gamesUnfair.simulate(n_games=D.n_games)
@@ -50,7 +49,7 @@ multiGamesUnfair = Cls.MultipleGameSets(
     ids=range(D.n_simulated_games, 2*D.n_simulated_games),
         # since we don't have a mechanism to pair the simulated games,
         # we chose a different random number seed for these two
-        # games so that they remain independent from each other.
+        # games so that they remain independent of each other.
     prob_head=D.prob_head_unfair)
 # simulate all cohorts
 multiGamesUnfair.simulate(n_games_in_set=D.games_in_set)
