@@ -1,5 +1,5 @@
+import deampy.statistics as stat
 import numpy as np
-import SimPy.Statistics as Stat
 
 
 class Game:
@@ -72,8 +72,8 @@ class SetOfGames:
             else:
                 self.gameIfLoss.append(0)
 
-        self.statRewards = Stat.SummaryStat(name='Reward', data=self.gameRewards)
-        self.statIfLoss = Stat.SummaryStat(name='Probability  of loss', data=self.gameIfLoss)
+        self.statRewards = stat.SummaryStat(name='Reward', data=self.gameRewards)
+        self.statIfLoss = stat.SummaryStat(name='Probability  of loss', data=self.gameIfLoss)
 
 
 class MultipleGameSets:
@@ -95,4 +95,4 @@ class MultipleGameSets:
 
             self.gameSetRewards.append(set_of_games.statRewards.get_total())
 
-        self.statGameSetRewards = Stat.SummaryStat(name='Mean Rewards', data=self.gameSetRewards)
+        self.statGameSetRewards = stat.SummaryStat(name='Mean Rewards', data=self.gameSetRewards)

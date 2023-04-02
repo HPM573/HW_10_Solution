@@ -1,6 +1,7 @@
+import deampy.plots.histogram as hist
+import deampy.statistics as stats
+
 import InputData as D
-import SimPy.Plots.Histogram as Hist
-import SimPy.Statistics as Stat
 
 
 def print_outcomes(set_of_games, strategy_name):
@@ -10,8 +11,8 @@ def print_outcomes(set_of_games, strategy_name):
     """
 
     # create a summary statistics
-    rewards_stat = Stat.SummaryStat(name='Game Rewards',
-                                    data=set_of_games.gameRewards)
+    rewards_stat = stats.SummaryStat(name='Game Rewards',
+                                     data=set_of_games.gameRewards)
 
     # get mean and confidence interval
     mean = rewards_stat.get_mean()
@@ -20,7 +21,7 @@ def print_outcomes(set_of_games, strategy_name):
     # print survival time statistics
     print(strategy_name)
     print("  Expected casino owner's payment to the gambler "
-          "(if negative, it means that the gambler is paying to the casino owner)  {:.{prec}%} confidence interval:"
+          "(if negative, it means that the gambler is paying to the casino owner):\n  {:.{prec}%} confidence interval:"
           .format(1 - D.ALPHA, prec=0), mean, conf_int)
 
 
@@ -37,7 +38,7 @@ def plot_histograms(set_of_games_fair_coin, set_of_games_unfair_coin):
     ]
 
     # graph histograms
-    Hist.plot_histograms(
+    hist.plot_histograms(
         data_sets=set_of_game_rewards,
         title="Histogram of the casino owner's payment to the gambler",
         x_label='Payment',
@@ -55,7 +56,7 @@ def print_comparative_outcomes(set_of_games_fair_coin, set_of_games_unfair_coin)
     """
 
     # create a difference statistics for the increase in game reward
-    increase_reward = Stat.DifferenceStatIndp(
+    increase_reward = stats.DifferenceStatIndp(
         name='Increase in game reward',
         x=set_of_games_unfair_coin.gameRewards,
         y_ref=set_of_games_fair_coin.gameRewards

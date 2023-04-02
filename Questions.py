@@ -1,9 +1,9 @@
 import Classes as Cls
 import InputData as D
-import SupportSteadyState as SupportSteady
-import SupportTransientState as SupportTransient
+import SupportCasioOwnerModel as SupportCasio
+import SupportGamblerModel as SupportGambler
 
-# STEADY STATE
+# from casino owner's perspective
 # fair game
 gamesFair = Cls.SetOfGames(
     id=1,
@@ -21,22 +21,22 @@ gamesUnfair = Cls.SetOfGames(
 gamesUnfair.simulate(n_games=D.n_games)
 
 # print outcomes of each set of games
-print("From the casio owner's perspective:")
-SupportSteady.print_outcomes(set_of_games=gamesFair,
-                             strategy_name='For a fair coin:')
-SupportSteady.print_outcomes(set_of_games=gamesUnfair,
-                             strategy_name='For an unfair coin:')
+print("\nFrom the casio owner's perspective:")
+SupportCasio.print_outcomes(set_of_games=gamesFair,
+                            strategy_name='For a fair coin:')
+SupportCasio.print_outcomes(set_of_games=gamesUnfair,
+                            strategy_name='For an unfair coin:')
 
 # plot histograms
-SupportSteady.plot_histograms(set_of_games_fair_coin=gamesFair,
-                              set_of_games_unfair_coin=gamesUnfair)
+SupportCasio.plot_histograms(set_of_games_fair_coin=gamesFair,
+                             set_of_games_unfair_coin=gamesUnfair)
 
 # print comparative outcomes
-SupportSteady.print_comparative_outcomes(set_of_games_fair_coin=gamesFair,
-                                         set_of_games_unfair_coin=gamesUnfair)
+SupportCasio.print_comparative_outcomes(set_of_games_fair_coin=gamesFair,
+                                        set_of_games_unfair_coin=gamesUnfair)
 
 
-# TRANSIENT STATE
+# from gambler's perspective
 # for fair coin
 multiGamesFair = Cls.MultipleGameSets(
     ids=range(D.n_simulated_games),
@@ -56,15 +56,15 @@ multiGamesUnfair.simulate(n_games_in_set=D.games_in_set)
 
 # print outcomes of each cohort
 print("\nFrom the gambler's perspective:")
-SupportTransient.print_outcomes(multi_game_sets=multiGamesFair,
-                                strategy_name='For fair games:')
-SupportTransient.print_outcomes(multi_game_sets=multiGamesUnfair,
-                                strategy_name='For unfair games:')
+SupportGambler.print_outcomes(multi_game_sets=multiGamesFair,
+                              strategy_name='For fair games:')
+SupportGambler.print_outcomes(multi_game_sets=multiGamesUnfair,
+                              strategy_name='For unfair games:')
 
 # plot histograms of rewards from a set of games
-SupportTransient.draw_histograms(multi_game_sets_fair_coin=multiGamesFair,
-                                 multi_game_sets_unfair_coin=multiGamesUnfair)
+SupportGambler.draw_histograms(multi_game_sets_fair_coin=multiGamesFair,
+                               multi_game_sets_unfair_coin=multiGamesUnfair)
 
 # print comparative outcomes
-SupportTransient.print_comparative_outcomes(multi_game_sets_fair_coin=multiGamesFair,
-                                            multi_game_sets_unfair_coin=multiGamesUnfair)
+SupportGambler.print_comparative_outcomes(multi_game_sets_fair_coin=multiGamesFair,
+                                          multi_game_sets_unfair_coin=multiGamesUnfair)

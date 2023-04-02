@@ -3,7 +3,7 @@ prob_head_unfair = 0.45
 ALPHA = 0.05
 
 # steady state
-n_games = 2000
+n_games = 5000
 
 # transient state
 games_in_set = 10

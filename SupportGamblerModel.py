@@ -1,5 +1,6 @@
-import SimPy.Plots.Histogram as Hist
-import SimPy.Statistics as Stat
+import deampy.plots.histogram as hist
+import deampy.statistics as stats
+
 import InputData as D
 
 
@@ -9,7 +10,7 @@ def print_outcomes(multi_game_sets, strategy_name):
     :param strategy_name: the name of the selected therapy
     """
 
-    rewards_stat = Stat.SummaryStat(name='Game Rewards',
+    rewards_stat = stats.SummaryStat(name='Game Rewards',
                                     data=multi_game_sets.gameSetRewards)
 
     # get mean and prediction interval
@@ -35,7 +36,7 @@ def draw_histograms(multi_game_sets_fair_coin, multi_game_sets_unfair_coin):
     ]
 
     # graph histograms
-    Hist.plot_histograms(
+    hist.plot_histograms(
         data_sets=set_of_game_rewards,
         title='Histogram of the gamblers total reward from 10 games',
         x_label='Mean Game Rewards',
@@ -53,7 +54,7 @@ def print_comparative_outcomes(multi_game_sets_fair_coin, multi_game_sets_unfair
     """
 
     # increase in game reward
-    increase_stat = Stat.DifferenceStatIndp(
+    increase_stat = stats.DifferenceStatIndp(
         name='Increase in average total reward',
         x=multi_game_sets_unfair_coin.gameSetRewards,
         y_ref=multi_game_sets_fair_coin.gameSetRewards
@@ -62,6 +63,6 @@ def print_comparative_outcomes(multi_game_sets_fair_coin, multi_game_sets_unfair
     mean = increase_stat.get_mean()
     pred_int = increase_stat.get_PI(alpha=D.ALPHA)
 
-    print("Increase in average of total reward from 10 games and {:.{prec}%} prediction interval:"
+    print("Increase in average of total reward from 10 games due to using the unfair coin and {:.{prec}%} prediction interval:"
           .format(1 - D.ALPHA, prec=0), mean, pred_int)
 
